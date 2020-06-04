@@ -1,10 +1,3 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-
-<!---*************welcome this is my simple empty strap by John Niro Yumang ******************* -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,6 +24,10 @@
 
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
     <!---- Font awesom link local ----->
+
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 
     <style>
         body {
@@ -60,62 +57,91 @@
             <hr>
             <div class="row">
                 <div class="col-md-5">
-                    <form role="form" method="post" action="register.php">
+                    <form class="form-horizontal" id="regform">
                         <fieldset>
-                            <p class="text-uppercase pull-center"> SIGN UP.</p>
+                            <p class="text-uppercase pull-center"> SIGN UP:</p>
                             <div class="form-group">
-                                <input type="text" name="username" id="username" class="form-control input-lg" placeholder="username">
-                            </div>
-
-                            <div class="form-group">
-                                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address">
+                                <input type="text" name="name" id="name" class="form-control input-lg text-capitalize" placeholder="Name" maxlength="20" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password">
+                                <input type="tel" name="mobile" id="mobile" class="form-control input-lg" placeholder="Mobile" maxlength="10" required>
                             </div>
                             <div class="form-group">
-                                <input type="password" name="password2" id="password2" class="form-control input-lg" placeholder="Password2">
+                                <input type="email" name="email" id="email" class="form-control input-lg" placeholder="Email Address" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="username" id="username" class="form-control input-lg" placeholder="username" minlength="5" required>
+                            </div>
+                            <div class="form-group">
+                                <input type="password" name="password" id="password" class="form-control input-lg" placeholder="Password" minlength="8" required>
                             </div>
                             <div class="form-check">
                                 <label class="form-check-label">
-								  <input type="checkbox" class="form-check-input">
+								  <input type="checkbox" class="form-check-input" required>
 								  By Clicking register you're agree to our policy & terms
 								</label>
                             </div>
                             <div>
-                                <input type="submit" class="btn btn-lg btn-primary   value=" Register ">
- 							</div>
-						</fieldset>
-					</form>
-				</div>
-				
-				<div class="col-md-2 ">
-					<!-------null------>
-				</div>
-				
-				<div class="col-md-5 ">
- 				 		<form role="form ">
-						<fieldset>							
-							<p class="text-uppercase "> Login using your account: </p>	
- 								
-							<div class="form-group ">
-								<input type="email " name="username " id="username " class="form-control input-lg " placeholder="username ">
-							</div>
-							<div class="form-group ">
-								<input type="password " name="password " id="password " class="form-control input-lg " placeholder="Password ">
-							</div>
-							<div>
-								<input type="submit " class="btn btn-md " value="Sign In ">
-							</div>
-								 
- 						</fieldset>
-				</form>	
-				</div>
-			</div>
-		</div>
-		
-	</div>
-	</body>
-	 
+                                <button type="submit" class="btn btn-lg btn-primary" value="submit" onclick="register();">Register</button>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <script type="text/javascript">
+                        function register() {
+                            data = {};
+                            data.name = document.getElementById("name").value;
+                            data.mobile = document.getElementById("mobile").value;
+                            data.email = document.getElementById("email").value;
+                            data.username = document.getElementById("username").value;
+                            data.password = document.getElementById("password").value;
+                            $.ajax({
+                                url: "/submit",
+                                method: "POST",
+                                data: JSON.stringify(data),
+                                contentType: 'application/json',
+                                success: function(response) {
+                                    if (response) {
+                                        alert("Successfully Registered!");
+                                    } else {
+                                        alert("Oops! an unknown error occurred. Please try again.")
+                                    }
+                                    document.getElementById("regform").reset();
+                                    return true;
+                                }
+                            });
+                        }
+                    </script>
+                </div>
+
+                <div class="col-md-2 ">
+                    <!-------null------>
+                </div>
+
+                <div class="col-md-5 ">
+                    <form role="form" method="POST" action="/login">
+                        <fieldset>
+                            <p class="text-uppercase "> Login using your account: </p>
+                            <div id="message"></div>
+                            <div class="form-group ">
+                                <input type="email " name="email" id="email" class="form-control input-lg " placeholder="Email">
+                            </div>
+                            <div class="form-group ">
+                                <input type="password " name="password " id="password " class="form-control input-lg " placeholder="Password ">
+                            </div>
+                            <div>
+                                <button type="submit" class="btn btn-md btn-success">Sign IN</button>
+                            </div>
+                            <div class="form-group ">
+                                <a href="/forgot-password">Forgot Password?</a>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+
 
 </html>
